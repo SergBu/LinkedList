@@ -9,11 +9,13 @@ namespace LinkedList
     //класс узла обобщённый, т.е. хранит данные любого типа
     public class Node<T>
     {
-        public Node(T data)
+        public Node(T data)           
         {
             Data = data;
-        }       
-        public T Data { get; init; }
-        public Node<T>? Next { get; set; }
-}
+        }
+
+        public T Data;
+
+        public Node<T>? Next;
+    }
 }

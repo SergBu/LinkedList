@@ -14,107 +14,131 @@ namespace LinkedList
         Node<T>? tail; //последний элемент
         private int count; //кол-во
 
+
         //сложность метода O(1)
         public void Add(T data)
         {
-            Node<T> node = new Node<T>(data);
+            var node = new Node<T>(data);
 
-            if (head == null)
+            if (head is null)
+            {
                 head = node;
+                tail = head;
+            }
             else
-                tail!.Next = node;
-            tail = node;
+            {
+                tail.Next = new Node<T>(data);
+                tail = tail.Next;
+            }
 
             count++;
         }
 
-        public bool Remove(T data)
+        public void Remove(T data)
         {
-            Node<T>? current = head;
-            Node<T>? previous = null;
+            var current = head;
+            Node<T>? previous = default;
 
-            while (current != null && current.Data != null)
+            while (current is not null)
             {
                 if (current.Data.Equals(data))
                 {
-                    // Если узел в середине или в конце
-                    if (previous != null)
+                    //если узел в середине или конце, теперь previous ссылается не на
+                    //current, а на current.Next
+                    if (previous is not null)
                     {
-                        // убираем узел current, теперь previous ссылается не на current, а на current.Next
                         previous.Next = current.Next;
-
-                        // Если current.Next не установлен, значит узел последний,
-                        // изменяем переменную tail
-                        if (current.Next == null)
-                            tail = previous;
+                        count--;
                     }
-                    else
+                    //если current.Next не установлен, значит узел последний - меняем tail
+                    if (current.Next is null)
                     {
-                        // если удаляется первый элемент
-                        // переустанавливаем значение head
-                        head = head?.Next;
-
-                        // если после удаления список пуст, сбрасываем tail
-                        if (head == null)
-                            tail = null;
+                        tail = previous;
                     }
-                    count--;
-                    return true;
+                    //если удаляется первый элемен, то переустанавливаем значение head
+                    if (current == head)
+                    {
+                        head = current.Next;
+                        count--;
+                    }
+                    //если после удаления список пуст - сбрасываем tail
+                    if (count is 0)
+                    {
+                        tail = null;
+                    }
                 }
 
                 previous = current;
                 current = current.Next;
+
             }
-            return false;
         }
 
-        public int Count { get { return count; } }
-        public bool IsEmpty { get { return count == 0; } }
-        // очистка списка
         public void Clear()
         {
-            head = null;
-            tail = null;
+            head = default;
+            tail = default;
             count = 0;
         }
 
-        // содержит ли список элемент
-        public bool Contains(T data)
+        public int Count()
         {
-            Node<T>? current = head;
-            while (current != null && current.Data != null)
-            {
-                if (current.Data.Equals(data)) return true;
-                current = current.Next;
-            }
-            return false;
+            return count;
         }
 
-        // добвление в начало
+        public bool IsEmpty()
+        {
+            return count is 0;
+        }
+
         public void AppendFirst(T data)
         {
-            Node<T> node = new Node<T>(data);
-            node.Next = head;
-            head = node;
-            if (count == 0)
+            var node = new Node<T>(data);
+
+            if (head is null)
+            {
+                head = node;
                 tail = head;
+            }
+            else
+            {
+                node.Next = head;
+                head = node;
+            }
+
             count++;
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        public bool Contains(T data)
         {
-            Node<T>? current = head;
-            while (current != null)
+            var current = head;
+            Node<T>? previous = default;
+
+            while (current is not null)
+            {
+                if (current.Data.Equals(data))
+                {
+                    return true;
+                }
+
+                current = current.Next;
+            }
+
+            return false;
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            var current = head;
+            while (current is not null)
             {
                 yield return current.Data;
                 current = current.Next;
             }
         }
 
-        // реализация интерфейса IEnumerable
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<T>)this).GetEnumerator();
+            return this.GetEnumerator();
         }
     }
 }
