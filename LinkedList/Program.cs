@@ -9,10 +9,10 @@ namespace LinkedList
             LinkedList<string> linkedList = new LinkedList<string>
             {
                 // добавление элементов
-                "Tom",
-                "Alice",
-                "Bob",
-                "Sam"
+                "one",
+                "two",
+                "three",
+                "four"
             };
 
             // выводим элементы
@@ -22,17 +22,17 @@ namespace LinkedList
             }
 
             // удаляем элемент
-            linkedList.Remove("Alice");
-            Console.WriteLine("\nПосле удаления Alice");
+            linkedList.Remove("two");
+            Console.WriteLine("\nПосле удаления two");
             foreach (var item in linkedList) Console.WriteLine(item);
 
             // проверяем наличие элемента
-            bool isPresent = linkedList.Contains("Sam");
-            Console.WriteLine(isPresent ? "Sam присутствует" : "Sam отсутствует");
+            bool isPresent = linkedList.Contains("three");
+            Console.WriteLine(isPresent ? "three присутствует" : "three отсутствует");
 
             // добавляем элемент в начало            
-            linkedList.AppendFirst("Bill");
-            Console.WriteLine("\nПосле добавления Billa");
+            linkedList.AppendFirst("five");
+            Console.WriteLine("\nПосле добавления five");
             foreach (var item in linkedList) Console.WriteLine(item);
         }
     }
